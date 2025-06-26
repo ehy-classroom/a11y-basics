@@ -57,7 +57,7 @@ Aktuelle Spezifikation: **ARIA 1.2** (W3C Recommendation)
 Beispiele:
 ```html
 <div role="button" tabindex="0">Öffnen</div>
-<nav role="navigation">…</nav>
+<div role="navigation">…</div>
 ````
 
 ### 2. Zustände (`aria-*`)

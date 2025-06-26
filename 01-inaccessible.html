@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Kontaktformular - Unzugänglich</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- SCHLECHTES BEISPIEL: Keine semantischen HTML-Elemente, kein ARIA -->
+    <!-- Zeigt typische Accessibility-Fehler auf -->
+    
+    <div class="header">
+        <div class="form-title">Kontaktformular</div>
+        <div>Beispiel 1: Unzugängliche Version - zeigt typische Fehler</div>
+    </div>
+    
+    <div class="main-content">
+        <!-- FEHLER: Kein <main> Element für Hauptinhalt -->
+        <!-- FEHLER: Keine Überschriftenstruktur mit h1, h2, etc. -->
+        
+        <div class="form-title">Kontakt aufnehmen</div>
+        
+        <!-- FEHLER: Kein <form> Element, nur div -->
+        <div class="form-container">
+            
+            <!-- FEHLER: Keine Labels für Eingabefelder -->
+            <!-- FEHLER: Keine semantische Verknüpfung zwischen Beschreibung und Input -->
+            <div class="form-group">
+                <div>Name</div> <!-- FEHLER: Kein <label> Element -->
+                <input type="text" class="form-input"> <!-- FEHLER: Kein name, id oder label -->
+            </div>
+            
+            <div class="form-group">
+                <div>E-Mail-Adresse</div> <!-- FEHLER: Kein <label> Element -->
+                <input type="text" class="form-input"> <!-- FEHLER: Falscher input type, kein label -->
+            </div>
+            
+            <div class="form-group">
+                <div>Telefonnummer (optional)</div>
+                <input type="text" class="form-input"> <!-- FEHLER: Kein label, keine Kennzeichnung als optional -->
+            </div>
+            
+            <div class="form-group">
+                <div>Betreff</div>
+                <!-- FEHLER: Dropdown ohne label und ohne semantic markup -->
+                <select class="form-select">
+                    <option>Bitte wählen</option> <!-- FEHLER: Kein value Attribut -->
+                    <option>Allgemeine Anfrage</option>
+                    <option>Support</option>
+                    <option>Beschwerde</option>
+                    <option>Lob</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <div>Nachricht</div>
+                <textarea class="form-textarea"></textarea> <!-- FEHLER: Kein label, keine Hilfestellung -->
+            </div>
+            
+            <!-- FEHLER: Keine Kennzeichnung von Pflichtfeldern -->
+            <div class="form-group">
+                <div>Newsletter abonnieren</div>
+                <!-- FEHLER: Checkbox ohne label, keine semantische Verknüpfung -->
+                <input type="checkbox"> Ja, ich möchte den Newsletter erhalten
+            </div>
+            
+            <!-- FEHLER: div statt button, keine Tastaturbedienung möglich -->
+            <!-- FEHLER: Kein submit-Verhalten, keine Formularvalidierung -->
+            <div class="form-button" onclick="submitForm()">Absenden</div>
+            <div class="form-button secondary" onclick="resetForm()">Zurücksetzen</div>
+            
+        </div>
+    </div>
+    
+    <script>
+        // FEHLER: JavaScript ohne Tastaturbedienung oder Fehlerbehandlung
+        function submitForm() {
+            // Keine Validierung, keine Barrierefreiheit
+            alert("Formular würde abgesendet werden");
+        }
+        
+        function resetForm() {
+            // Unsauberes Zurücksetzen ohne Bestätigung
+            var inputs = document.getElementsByTagName('input');
+            var textareas = document.getElementsByTagName('textarea');
+            var selects = document.getElementsByTagName('select');
+            
+            for(var i = 0; i < inputs.length; i++) {
+                inputs[i].value = '';
+                inputs[i].checked = false;
+            }
+            for(var i = 0; i < textareas.length; i++) {
+                textareas[i].value = '';
+            }
+            for(var i = 0; i < selects.length; i++) {
+                selects[i].selectedIndex = 0;
+            }
+        }
+    </script>
+    
+    <!-- FEHLER: Kein Footer, keine Strukturierung der Seite -->
+    
+    <!--
+    ZUSAMMENFASSUNG DER PROBLEME:
+    - Keine semantischen HTML5-Elemente (main, form, label, button)
+    - Keine ARIA-Attribute
+    - Keine Verknüpfung zwischen Labels und Eingabefeldern
+    - Keine Tastaturbedienung für "Buttons"
+    - Keine Kennzeichnung von Pflichtfeldern
+    - Keine Fehlerbehandlung oder Validierung
+    - Keine Überschriftenstruktur
+    - Schlechte JavaScript-Implementierung ohne Accessibility
+    - Keine Skip-Links oder Orientierungshilfen
+    -->
+</body>
+</html>

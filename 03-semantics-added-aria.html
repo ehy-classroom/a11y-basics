@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontaktformular - Semantisches HTML + optimales ARIA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- BEST PRACTICE: Semantisches HTML5 + ARIA nur wo wirklich nötig -->
+    <!-- Zeigt die optimale Umsetzung von Barrierefreiheit -->
+    
+    <!-- Skip-Link für bessere Navigation -->
+    <a href="#main-content" class="skip-link">Zum Hauptinhalt springen</a>
+    
+    <!-- Semantisches HTML: <header> statt div -->
+    <header class="header">
+        <h1>Kontaktformular</h1>
+        <p>Beispiel 3: Semantisches HTML5 + optimaler ARIA-Einsatz - Best Practice</p>
+    </header>
+    
+    <!-- Semantisches HTML: <nav> für Navigation -->
+    <nav class="nav-menu" aria-label="Beispiel-Navigation">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="01-inaccessible.html" class="nav-link">Schlecht</a></li>
+            <li class="nav-item"><a href="02-aria-no-semantics.html" class="nav-link">ARIA-Rettung</a></li>
+            <li class="nav-item"><a href="03-semantics-added-aria.html" class="nav-link" aria-current="page">Best Practice</a></li>
+            <li class="nav-item"><a href="04-semantics-redundant-aria.html" class="nav-link">Anti-Beispiel</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Semantisches HTML: <main> für Hauptinhalt -->
+    <main id="main-content" class="main-content">
+        
+        <!-- Semantisches HTML: <h2> für Seitenstruktur -->
+        <h2 class="form-title">Kontakt aufnehmen</h2>
+        
+        <!-- Semantisches HTML: <form> Element mit novalidate für eigene Validierung -->
+        <form class="form-container" novalidate aria-describedby="form-instructions">
+            
+            <!-- ARIA nur wo nötig: Zusätzliche Anweisungen -->
+            <p id="form-instructions" class="help-text">
+                Felder mit * sind Pflichtfelder. Wir antworten binnen 24 Stunden.
+            </p>
+            
+            <!-- Semantisches HTML: <label> für Eingabefelder -->
+            <div class="form-group">
+                <label for="name" class="form-label required">Name</label>
+                <input type="text" 
+                       id="name" 
+                       name="name"
+                       required
+                       aria-describedby="name-help"
+                       class="form-input">
+                <!-- ARIA nur wo nötig: describedby für zusätzliche Hilfe -->
+                <small id="name-help" class="help-text">Ihr vollständiger Name</small>
+            </div>
+            
+            <!-- Semantisches HTML: type="email" für automatische Validierung -->
+            <div class="form-group">
+                <label for="email" class="form-label required">E-Mail-Adresse</label>
+                <input type="email" 
+                       id="email" 
+                       name="email"
+                       required
+                       aria-describedby="email-help"
+                       class="form-input">
+                <small id="email-help" class="help-text">Wir verwenden Ihre E-Mail nur für die Kontaktaufnahme</small>
+                <!-- ARIA für Fehlermeldungen: live region -->
+                <div id="email-error" class="error-message" role="alert" style="display: none;"></div>
+            </div>
+            
+            <!-- Semantisches HTML: type="tel" + keine ARIA-required da optional -->
+            <div class="form-group">
+                <label for="phone" class="form-label">Telefonnummer (optional)</label>
+                <input type="tel" 
+                       id="phone" 
+                       name="phone"
+                       aria-describedby="phone-help"
+                       class="form-input">
+                <small id="phone-help" class="help-text">Für Rückfragen - nicht erforderlich</small>
+            </div>
+            
+            <!-- Semantisches HTML: <select> mit <label> -->
+            <div class="form-group">
+                <label for="subject" class="form-label required">Betreff</label>
+                <select id="subject" 
+                        name="subject" 
+                        required
+                        aria-describedby="subject-help"
+                        class="form-select">
+                    <option value="">Bitte wählen Sie einen Betreff</option>
+                    <option value="general">Allgemeine Anfrage</option>
+                    <option value="support">Support</option>
+                    <option value="complaint">Beschwerde</option>
+                    <option value="praise">Lob</option>
+                </select>
+                <small id="subject-help" class="help-text">Wählen Sie den passenden Betreff für Ihre Anfrage</small>
+            </div>
+            
+            <!-- Semantisches HTML: <textarea> mit <label> -->
+            <div class="form-group">
+                <label for="message" class="form-label required">Nachricht</label>
+                <textarea id="message" 
+                          name="message"
+                          required
+                          rows="5"
+                          maxlength="500"
+                          aria-describedby="message-help message-count"
+                          class="form-textarea"></textarea>
+                <small id="message-help" class="help-text">Beschreiben Sie Ihr Anliegen (max. 500 Zeichen)</small>
+                <!-- ARIA für dynamischen Content: live region -->
+                <small id="message-count" class="help-text" aria-live="polite">0 von 500 Zeichen</small>
+            </div>
+            
+            <!-- Semantisches HTML: <fieldset> für Gruppierung -->
+            <fieldset class="form-group">
+                <legend class="form-label">Newsletter-Abonnement</legend>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" 
+                               id="newsletter" 
+                               name="newsletter"
+                               aria-describedby="newsletter-help">
+                        <label for="newsletter">Ja, ich möchte den Newsletter erhalten</label>
+                    </div>
+                </div>
+                <small id="newsletter-help" class="help-text">Sie können sich jederzeit wieder abmelden</small>
+            </fieldset>
+            
+            <!-- Semantisches HTML: <button> Elemente -->
+            <div class="form-group">
+                <button type="submit" class="form-button">
+                    Absenden
+                </button>
+                <button type="reset" class="form-button secondary">
+                    Zurücksetzen
+                </button>
+            </div>
+            
+        </form>
+    </main>
+    
+    <!-- ARIA nur wo nötig: Status-Nachrichten für Screenreader -->
+    <div role="status" aria-live="polite" aria-atomic="true" id="status-message" class="sr-only"></div>
+    
+    <!-- Semantisches HTML: <footer> -->
+    <footer style="margin-top: 2rem; padding: 1rem; text-align: center; color: #666; border-top: 1px solid #ddd;">
+        <p><small>© 2025 Accessibility Demo - Erstellt für Lernzwecke</small></p>
+    </footer>
+    
+    <script>
+        // JavaScript mit Fokus auf Accessibility und native HTML-Features
+        
+        const form = document.querySelector('form');
+        const statusDiv = document.getElementById('status-message');
+        
+        // Zeichenzähler für Textarea - ARIA live region
+        document.getElementById('message').addEventListener('input', function() {
+            const count = this.value.length;
+            const counter = document.getElementById('message-count');
+            counter.textContent = `${count} von 500 Zeichen`;
+            
+            // Native HTML5 Validierung nutzen
+            if (count > 500) {
+                this.setCustomValidity('Die Nachricht ist zu lang (max. 500 Zeichen)');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+        
+        // E-Mail Validierung mit nativen HTML5 Features
+        document.getElementById('email').addEventListener('blur', function() {
+            const errorDiv = document.getElementById('email-error');
+            
+            // HTML5 Validierung nutzen
+            if (this.validity.invalid) {
+                this.classList.add('error');
+                if (this.validity.valueMissing) {
+                    errorDiv.textContent = 'E-Mail-Adresse ist erforderlich';
+                } else if (this.validity.typeMismatch) {
+                    errorDiv.textContent = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
+                }
+                errorDiv.style.display = 'block';
+            } else {
+                this.classList.remove('error');
+                errorDiv.style.display = 'none';
+            }
+        });
+        
+        // Form Submit mit HTML5 Validierung
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // HTML5 checkValidity() nutzen
+            if (this.checkValidity()) {
+                // Alle Felder sind gültig
+                statusDiv.textContent = 'Formular erfolgreich abgesendet. Vielen Dank für Ihre Nachricht!';
+                
+                // Formular-Daten sammeln (Demo)
+                const formData = new FormData(this);
+                console.log('Formular-Daten:', Object.fromEntries(formData));
+                
+                alert('Formular würde abgesendet werden (Demo)');
+                
+                // Optional: Formular zurücksetzen nach erfolgreichem Submit
+                // this.reset();
+                
+            } else {
+                // HTML5 Validierung fehlgeschlagen
+                statusDiv.textContent = 'Bitte korrigieren Sie die Fehler im Formular.';
+                
+                // Erstes ungültiges Feld fokussieren
+                const firstInvalid = this.querySelector(':invalid');
+                if (firstInvalid) {
+                    firstInvalid.focus();
+                }
+            }
+        });
+        
+        // Reset mit Bestätigung
+        form.addEventListener('reset', function(event) {
+            if (!confirm('Möchten Sie wirklich alle Eingaben zurücksetzen?')) {
+                event.preventDefault();
+                return;
+            }
+            
+            // Fehler-Styles entfernen
+            const errorElements = this.querySelectorAll('.error');
+            errorElements.forEach(el => el.classList.remove('error'));
+            
+            const errorMessages = this.querySelectorAll('.error-message');
+            errorMessages.forEach(el => el.style.display = 'none');
+            
+            // Zeichenzähler zurücksetzen
+            document.getElementById('message-count').textContent = '0 von 500 Zeichen';
+            
+            // Status-Update
+            statusDiv.textContent = 'Formular wurde zurückgesetzt.';
+        });
+        
+        // Fokus-Management für bessere Accessibility
+        document.addEventListener('DOMContentLoaded', function() {
+            // Erste Eingabefeld fokussieren (optional)
+            // document.getElementById('name').focus();
+        });
+    </script>
+    
+    <!--
+    SEMANTISCHES HTML5 + OPTIMALES ARIA:
+    
+    ✓ Semantische HTML5-Elemente: header, nav, main, form, label, button, fieldset, legend
+    ✓ Native HTML5-Validierung mit checkValidity()
+    ✓ Korrekte input types (email, tel)
+    ✓ Labels sind automatisch mit Eingabefeldern verknüpft
+    ✓ ARIA nur wo wirklich nötig:
+      - aria-describedby für zusätzliche Hilfetexte
+      - aria-live für dynamische Inhalte (Zeichenzähler, Status)
+      - role="alert" für wichtige Fehlermeldungen
+      - aria-current="page" für Navigation
+      - aria-label für Nav-Beschreibung
+    
+    ✓ Keine redundanten ARIA-Attribute
+    ✓ Saubere Überschriftenstruktur (h1, h2)
+    ✓ Skip-Links für Tastaturnavigation
+    ✓ Responsive Design
+    ✓ Progressives Enhancement mit JavaScript
+    
+    DAS IST DIE EMPFOHLENE UMSETZUNG!
+    -->
+</body>
+</html>

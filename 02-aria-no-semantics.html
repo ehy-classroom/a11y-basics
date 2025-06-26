@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontaktformular - ARIA ohne Semantik</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ARIA-RETTUNG: Kein semantisches HTML, aber ARIA macht es zugänglich -->
+    <!-- Zeigt, wie ARIA schlechtes HTML "reparieren" kann -->
+    
+    <!-- Skip-Link für bessere Navigation -->
+    <a href="#main-content" class="skip-link">Zum Hauptinhalt springen</a>
+    
+    <!-- ARIA-ROLLE: banner statt <header> -->
+    <div role="banner" class="header">
+        <div role="heading" aria-level="1" class="form-title">Kontaktformular</div>
+        <div>Beispiel 2: ARIA rettet schlechtes HTML - Zugänglichkeit durch ARIA-Attribute</div>
+    </div>
+    
+    <!-- ARIA-ROLLE: main statt <main> -->
+    <div role="main" id="main-content" class="main-content">
+        
+        <!-- ARIA-ROLLE: heading statt <h2> -->
+        <div role="heading" aria-level="2" class="form-title">Kontakt aufnehmen</div>
+        
+        <!-- ARIA-ROLLE: form statt <form> Element -->
+        <div role="form" aria-labelledby="form-heading" class="form-container">
+            
+            <!-- Versteckte Überschrift für Screenreader -->
+            <div id="form-heading" class="sr-only">Kontaktformular ausfüllen</div>
+            
+            <!-- ARIA: labelledby verknüpft div-"Label" mit Input -->
+            <div class="form-group">
+                <div id="name-label" class="form-label required">Name</div>
+                <input type="text" 
+                       aria-labelledby="name-label" 
+                       aria-required="true"
+                       aria-describedby="name-help"
+                       class="form-input">
+                <div id="name-help" class="help-text">Ihr vollständiger Name</div>
+            </div>
+            
+            <!-- ARIA: E-Mail mit Validierung -->
+            <div class="form-group">
+                <div id="email-label" class="form-label required">E-Mail-Adresse</div>
+                <input type="email" 
+                       aria-labelledby="email-label"
+                       aria-required="true"
+                       aria-describedby="email-help email-error"
+                       aria-invalid="false"
+                       class="form-input">
+                <div id="email-help" class="help-text">Wir verwenden Ihre E-Mail nur für die Kontaktaufnahme</div>
+                <div id="email-error" class="error-message" aria-live="polite" style="display: none;"></div>
+            </div>
+            
+            <!-- ARIA: Optionales Feld korrekt gekennzeichnet -->
+            <div class="form-group">
+                <div id="phone-label" class="form-label">Telefonnummer (optional)</div>
+                <input type="tel" 
+                       aria-labelledby="phone-label"
+                       aria-describedby="phone-help"
+                       aria-required="false"
+                       class="form-input">
+                <div id="phone-help" class="help-text">Für Rückfragen - nicht erforderlich</div>
+            </div>
+            
+            <!-- ARIA: Combobox/Select mit Labelling -->
+            <div class="form-group">
+                <div id="subject-label" class="form-label required">Betreff</div>
+                <select aria-labelledby="subject-label" 
+                        aria-required="true"
+                        aria-describedby="subject-help"
+                        class="form-select">
+                    <option value="">Bitte wählen Sie einen Betreff</option>
+                    <option value="general">Allgemeine Anfrage</option>
+                    <option value="support">Support</option>
+                    <option value="complaint">Beschwerde</option>
+                    <option value="praise">Lob</option>
+                </select>
+                <div id="subject-help" class="help-text">Wählen Sie den passenden Betreff für Ihre Anfrage</div>
+            </div>
+            
+            <!-- ARIA: Textarea mit korrekter Beschreibung -->
+            <div class="form-group">
+                <div id="message-label" class="form-label required">Nachricht</div>
+                <textarea aria-labelledby="message-label"
+                          aria-required="true"
+                          aria-describedby="message-help message-count"
+                          aria-invalid="false"
+                          rows="5"
+                          maxlength="500"
+                          class="form-textarea"></textarea>
+                <div id="message-help" class="help-text">Beschreiben Sie Ihr Anliegen (max. 500 Zeichen)</div>
+                <div id="message-count" class="help-text" aria-live="polite">0 von 500 Zeichen</div>
+            </div>
+            
+            <!-- ARIA: Checkbox mit korrekter Gruppierung -->
+            <div class="form-group" role="group" aria-labelledby="newsletter-label">
+                <div id="newsletter-label" class="form-label">Newsletter-Abonnement</div>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" 
+                               id="newsletter-checkbox"
+                               aria-describedby="newsletter-help">
+                        <div aria-labelledby="newsletter-checkbox-label">
+                            <span id="newsletter-checkbox-label">Ja, ich möchte den Newsletter erhalten</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="newsletter-help" class="help-text">Sie können sich jederzeit wieder abmelden</div>
+            </div>
+            
+            <!-- ARIA: Buttons mit korrekten Rollen und Zuständen -->
+            <div class="form-group">
+                <!-- ARIA: button role auf div + Tastaturunterstützung -->
+                <div role="button" 
+                     tabindex="0"
+                     aria-describedby="submit-help"
+                     class="form-button"
+                     onclick="submitForm(event)"
+                     onkeydown="handleKeyPress(event, 'submit')">
+                    Absenden
+                </div>
+                
+                <div role="button" 
+                     tabindex="0"
+                     class="form-button secondary"
+                     onclick="resetForm(event)"
+                     onkeydown="handleKeyPress(event, 'reset')">
+                    Zurücksetzen
+                </div>
+                
+                <div id="submit-help" class="help-text">Drücken Sie Enter oder Leertaste zum Absenden</div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- ARIA: Status-Bereich für Nachrichten -->
+    <div role="status" aria-live="polite" aria-atomic="true" id="status-message" class="sr-only"></div>
+    
+    <script>
+        // ARIA-unterstütztes JavaScript mit Tastaturbedienung
+        
+        // Tastaturunterstützung für ARIA-Buttons
+        function handleKeyPress(event, action) {
+            // Enter (13) oder Leertaste (32)
+            if (event.keyCode === 13 || event.keyCode === 32) {
+                event.preventDefault();
+                if (action === 'submit') {
+                    submitForm(event);
+                } else if (action === 'reset') {
+                    resetForm(event);
+                }
+            }
+        }
+        
+        // Zeichenzähler für Textarea
+        document.querySelector('[aria-labelledby="message-label"]').addEventListener('input', function() {
+            const count = this.value.length;
+            const counter = document.getElementById('message-count');
+            counter.textContent = count + ' von 500 Zeichen';
+            
+            // ARIA: invalid state bei Überschreitung
+            if (count > 500) {
+                this.setAttribute('aria-invalid', 'true');
+                counter.classList.add('error-message');
+            } else {
+                this.setAttribute('aria-invalid', 'false');
+                counter.classList.remove('error-message');
+            }
+        });
+        
+        // E-Mail Validierung mit ARIA-Feedback
+        document.querySelector('[aria-labelledby="email-label"]').addEventListener('blur', function() {
+            const email = this.value;
+            const errorDiv = document.getElementById('email-error');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (email && !emailRegex.test(email)) {
+                this.setAttribute('aria-invalid', 'true');
+                this.classList.add('error');
+                errorDiv.textContent = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
+                errorDiv.style.display = 'block';
+            } else {
+                this.setAttribute('aria-invalid', 'false');
+                this.classList.remove('error');
+                errorDiv.style.display = 'none';
+            }
+        });
+        
+        function submitForm(event) {
+            event.preventDefault();
+            
+            // Einfache Validierung
+            const requiredFields = document.querySelectorAll('[aria-required="true"]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.setAttribute('aria-invalid', 'true');
+                    field.classList.add('error');
+                    isValid = false;
+                } else {
+                    field.setAttribute('aria-invalid', 'false');
+                    field.classList.remove('error');
+                }
+            });
+            
+            // ARIA: Live-Region für Status-Updates
+            const statusDiv = document.getElementById('status-message');
+            if (isValid) {
+                statusDiv.textContent = 'Formular erfolgreich abgesendet. Vielen Dank für Ihre Nachricht!';
+                alert('Formular würde abgesendet werden (Demo)');
+            } else {
+                statusDiv.textContent = 'Bitte füllen Sie alle Pflichtfelder aus.';
+            }
+        }
+        
+        function resetForm(event) {
+            event.preventDefault();
+            
+            // Bestätigung mit ARIA-Feedback
+            if (confirm('Möchten Sie wirklich alle Eingaben zurücksetzen?')) {
+                const inputs = document.querySelectorAll('input, textarea, select');
+                inputs.forEach(input => {
+                    if (input.type === 'checkbox') {
+                        input.checked = false;
+                    } else {
+                        input.value = '';
+                    }
+                    input.setAttribute('aria-invalid', 'false');
+                    input.classList.remove('error');
+                });
+                
+                // Status-Update
+                document.getElementById('status-message').textContent = 'Formular wurde zurückgesetzt.';
+                document.getElementById('message-count').textContent = '0 von 500 Zeichen';
+            }
+        }
+    </script>
+    
+    <!--
+    ARIA-RETTUNGSMASSKNAHMEN:
+    ✓ role="form", role="button", role="main" für semantische Struktur
+    ✓ aria-labelledby für Label-Verknüpfungen
+    ✓ aria-required für Pflichtfelder
+    ✓ aria-invalid für Validierungszustände
+    ✓ aria-describedby für Hilfetexte und Fehlermeldungen
+    ✓ aria-live für dynamische Inhalte
+    ✓ Tastaturunterstützung für alle interaktiven Elemente
+    ✓ Skip-Links für bessere Navigation
+    ✓ Screenreader-Only Texte mit .sr-only
+    
+    WICHTIG: ARIA macht schlechtes HTML zugänglich, aber semantisches HTML ist immer besser!
+    -->
+</body>
+</html>

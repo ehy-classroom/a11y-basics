@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontaktformular - Redundantes ARIA Anti-Beispiel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ANTI-BEISPIEL: Semantisches HTML + überflüssiges/redundantes ARIA -->
+    <!-- Zeigt, was man NICHT machen sollte - "ARIA-Overkill" -->
+    
+    <!-- Skip-Link (korrekt) -->
+    <a href="#main-content" class="skip-link">Zum Hauptinhalt springen</a>
+    
+    <!-- REDUNDANT: role="banner" auf <header> ist überflüssig -->
+    <header role="banner" class="header">
+        <!-- REDUNDANT: role="heading" + aria-level auf <h1> ist überflüssig -->
+        <h1 role="heading" aria-level="1">Kontaktformular</h1>
+        <p role="text">Beispiel 4: Semantisches HTML + redundantes ARIA - Anti-Beispiel (nicht nachmachen!)</p>
+    </header>
+    
+    <!-- REDUNDANT: role="navigation" auf <nav> ist überflüssig -->
+    <nav role="navigation" class="nav-menu" aria-label="Beispiel-Navigation">
+        <!-- REDUNDANT: role="list" auf <ul> ist überflüssig -->
+        <ul role="list" class="nav-list">
+            <!-- REDUNDANT: role="listitem" auf <li> ist überflüssig -->
+            <li role="listitem" class="nav-item">
+                <!-- REDUNDANT: role="link" auf <a> ist überflüssig -->
+                <a href="01-inaccessible.html" role="link" class="nav-link">Schlecht</a>
+            </li>
+            <li role="listitem" class="nav-item">
+                <a href="02-aria-no-semantics.html" role="link" class="nav-link">ARIA-Rettung</a>
+            </li>
+            <li role="listitem" class="nav-item">
+                <a href="03-semantics-added-aria.html" role="link" class="nav-link">Best Practice</a>
+            </li>
+            <li role="listitem" class="nav-item">
+                <a href="04-semantics-redundant-aria.html" role="link" class="nav-link" aria-current="page">Anti-Beispiel</a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- REDUNDANT: role="main" auf <main> ist überflüssig -->
+    <main role="main" id="main-content" class="main-content">
+        
+        <!-- REDUNDANT: role="heading" + aria-level auf <h2> ist überflüssig -->
+        <h2 role="heading" aria-level="2" class="form-title">Kontakt aufnehmen</h2>
+        
+        <!-- REDUNDANT: role="form" auf <form> ist überflüssig (seit HTML5) -->
+        <form role="form" class="form-container" novalidate aria-describedby="form-instructions">
+            
+            <!-- REDUNDANT: role="text" auf <p> ist überflüssig -->
+            <p role="text" id="form-instructions" class="help-text">
+                Felder mit * sind Pflichtfelder. Wir antworten binnen 24 Stunden.
+            </p>
+            
+            <!-- REDUNDANT: Viele überflüssige ARIA-Attribute -->
+            <div role="group" class="form-group">
+                <!-- REDUNDANT: aria-label wenn <label> existiert -->
+                <label for="name" 
+                       role="label" 
+                       aria-label="Name eingeben"
+                       class="form-label required">Name</label>
+                <!-- REDUNDANT: role="textbox" auf input[type="text"] ist überflüssig -->
+                <!-- REDUNDANT: aria-required="true" wenn required vorhanden -->
+                <!-- REDUNDANT: aria-labelledby wenn <label> mit for="" verwendet wird -->
+                <input type="text" 
+                       role="textbox"
+                       id="name" 
+                       name="name"
+                       required
+                       aria-required="true"
+                       aria-labelledby="name-label"
+                       aria-describedby="name-help"
+                       aria-invalid="false"
+                       class="form-input">
+                <!-- Verstecktes Label (unnötig da schon <label> vorhanden) -->
+                <span id="name-label" class="sr-only">Name</span>
+                <small id="name-help" role="note" class="help-text">Ihr vollständiger Name</small>
+            </div>
+            
+            <!-- REDUNDANT: Noch mehr überflüssige Attribute -->
+            <div role="group" class="form-group">
+                <label for="email" 
+                       role="label"
+                       aria-label="E-Mail-Adresse eingeben"
+                       class="form-label required">E-Mail-Adresse</label>
+                <!-- REDUNDANT: role="textbox" auf input[type="email"] -->
+                <input type="email" 
+                       role="textbox"
+                       id="email" 
+                       name="email"
+                       required
+                       aria-required="true"
+                       aria-labelledby="email-label"
+                       aria-describedby="email-help email-error"
+                       aria-invalid="false"
+                       class="form-input">
+                <span id="email-label" class="sr-only">E-Mail-Adresse</span>
+                <small id="email-help" role="note" class="help-text">Wir verwenden Ihre E-Mail nur für die Kontaktaufnahme</small>
+                <!-- REDUNDANT: role="alert" ist richtig, aber hier übertrieben implementiert -->
+                <div id="email-error" 
+                     role="alert" 
+                     aria-live="assertive" 
+                     aria-atomic="true"
+                     class="error-message" 
+                     style="display: none;"></div>
+            </div>
+            
+            <!-- REDUNDANT: Optional field with excessive ARIA -->
+            <div role="group" class="form-group">
+                <label for="phone" 
+                       role="label"
+                       aria-label="Telefonnummer eingeben (optional)"
+                       class="form-label">Telefonnummer (optional)</label>
+                <input type="tel" 
+                       role="textbox"
+                       id="phone" 
+                       name="phone"
+                       aria-required="false"
+                       aria-optional="true"
+                       aria-labelledby="phone-label"
+                       aria-describedby="phone-help"
+                       aria-invalid="false"
+                       class="form-input">
+                <span id="phone-label" class="sr-only">Telefonnummer</span>
+                <small id="phone-help" role="note" class="help-text">Für Rückfragen - nicht erforderlich</small>
+            </div>
+            
+            <!-- REDUNDANT: Combobox mit überflüssigen Attributen -->
+            <div role="group" class="form-group">
+                <label for="subject" 
+                       role="label"
+                       aria-label="Betreff auswählen"
+                       class="form-label required">Betreff</label>
+                <!-- REDUNDANT: role="combobox" auf <select> ist überflüssig -->
+                <!-- REDUNDANT: aria-haspopup="listbox" ist bei <select> überflüssig -->
+                <select id="subject" 
+                        role="combobox"
+                        name="subject" 
+                        required
+                        aria-required="true"
+                        aria-labelledby="subject-label"
+                        aria-describedby="subject-help"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        class="form-select">
+                    <!-- REDUNDANT: role="option" auf <option> ist überflüssig -->
+                    <option role="option" value="">Bitte wählen Sie einen Betreff</option>
+                    <option role="option" value="general">Allgemeine Anfrage</option>
+                    <option role="option" value="support">Support</option>
+                    <option role="option" value="complaint">Beschwerde</option>
+                    <option role="option" value="praise">Lob</option>
+                </select>
+                <span id="subject-label" class="sr-only">Betreff</span>
+                <small id="subject-help" role="note" class="help-text">Wählen Sie den passenden Betreff für Ihre Anfrage</small>
+            </div>
+            
+            <!-- REDUNDANT: Textarea mit Overkill-ARIA -->
+            <div role="group" class="form-group">
+                <label for="message" 
+                       role="label"
+                       aria-label="Nachricht eingeben"
+                       class="form-label required">Nachricht</label>
+                <!-- REDUNDANT: role="textbox" + aria-multiline auf <textarea> ist überflüssig -->
+                <textarea id="message" 
+                          role="textbox"
+                          aria-multiline="true"
+                          name="message"
+                          required
+                          aria-required="true"
+                          aria-labelledby="message-label"
+                          rows="5"
+                          maxlength="500"
+                          aria-describedby="message-help message-count"
+                          aria-invalid="false"
+                          class="form-textarea"></textarea>
+                <span id="message-label" class="sr-only">Nachricht</span>
+                <small id="message-help" role="note" class="help-text">Beschreiben Sie Ihr Anliegen (max. 500 Zeichen)</small>
+                <!-- REDUNDANT: Übertriebene live region -->
+                <small id="message-count" 
+                       role="status"
+                       aria-live="polite" 
+                       aria-atomic="true"
+                       class="help-text">0 von 500 Zeichen</small>
+            </div>
+            
+            <!-- REDUNDANT: fieldset/legend mit überflüssigem ARIA -->
+            <!-- REDUNDANT: role="group" auf <fieldset> ist überflüssig -->
+            <fieldset role="group" class="form-group">
+                <!-- REDUNDANT: role="legend" auf <legend> ist überflüssig -->
+                <legend role="legend" aria-label="Newsletter-Abonnement auswählen" class="form-label">Newsletter-Abonnement</legend>
+                <div role="group" class="checkbox-group">
+                    <div role="group" class="checkbox-item">
+                        <!-- REDUNDANT: role="checkbox" auf input[type="checkbox"] ist überflüssig -->
+                        <input type="checkbox" 
+                               role="checkbox"
+                               id="newsletter" 
+                               name="newsletter"
+                               aria-checked="false"
+                               aria-labelledby="newsletter-label"
+                               aria-describedby="newsletter-help">
+                        <!-- REDUNDANT: role="label" auf <label> ist überflüssig -->
+                        <label for="newsletter" 
+                               role="label"
+                               id="newsletter-label">Ja, ich möchte den Newsletter erhalten</label>
+                    </div>
+                </div>
+                <small id="newsletter-help" role="note" class="help-text">Sie können sich jederzeit wieder abmelden</small>
+            </fieldset>
+            
+            <!-- REDUNDANT: Buttons mit überflüssigen Rollen -->
+            <div role="group" class="form-group">
+                <!-- REDUNDANT: role="button" auf <button> ist überflüssig -->
+                <!-- REDUNDANT: aria-label wenn Text vorhanden ist -->
+                <button type="submit" 
+                        role="button"
+                        aria-label="Formular absenden"
+                        aria-describedby="submit-help"
+                        class="form-button">
+                    Absenden
+                </button>
+                <button type="reset" 
+                        role="button"
+                        aria-label="Formular zurücksetzen"
+                        class="form-button secondary">
+                    Zurücksetzen
+                </button>
+                <small id="submit-help" role="note" class="help-text">Klicken Sie hier zum Absenden</small>
+            </div>
+            
+        </form>
+    </main>
+    
+    <!-- REDUNDANT: Übertriebene Status-Region -->
+    <div role="status" 
+         aria-live="polite" 
+         aria-atomic="true" 
+         aria-label="Status-Nachrichten"
+         id="status-message" 
+         class="sr-only"></div>
+    
+    <!-- REDUNDANT: role="contentinfo" auf <footer> ist überflüssig -->
+    <footer role="contentinfo" style="margin-top: 2rem; padding: 1rem; text-align: center; color: #666; border-top: 1px solid #ddd;">
+        <!-- REDUNDANT: role="text" auf <p> ist überflüssig -->
+        <p role="text">
+            <small role="text">© 2025 Accessibility Demo - Anti-Beispiel mit redundantem ARIA</small>
+        </p>
+    </footer>
+    
+    <script>
+        // JavaScript mit überflüssigen ARIA-Manipulationen
+        
+        const form = document.querySelector('form');
+        const statusDiv = document.getElementById('status-message');
+        
+        // REDUNDANT: Übertriebene ARIA-Updates
+        document.getElementById('message').addEventListener('input', function() {
+            const count = this.value.length;
+            const counter = document.getElementById('message-count');
+            counter.textContent = `${count} von 500 Zeichen`;
+            
+            // REDUNDANT: aria-invalid setzen obwohl HTML5 Validierung das macht
+            if (count > 500) {
+                this.setAttribute('aria-invalid', 'true');
+                this.setCustomValidity('Die Nachricht ist zu lang (max. 500 Zeichen)');
+            } else {
+                this.setAttribute('aria-invalid', 'false');
+                this.setCustomValidity('');
+            }
+        });
+        
+        // REDUNDANT: Checkbox State manually tracked (unnecessary)
+        document.getElementById('newsletter').addEventListener('change', function() {
+            // REDUNDANT: aria-checked wird automatisch gesetzt
+            this.setAttribute('aria-checked', this.checked.toString());
+        });
+        
+        // REDUNDANT: Select expanded state (unnecessary for native select)
+        document.getElementById('subject').addEventListener('focus', function() {
+            this.setAttribute('aria-expanded', 'true');
+        });
+        
+        document.getElementById('subject').addEventListener('blur', function() {
+            this.setAttribute('aria-expanded', 'false');
+        });
+        
+        // E-Mail Validierung mit überflüssigen ARIA-Updates
+        document.getElementById('email').addEventListener('blur', function() {
+            const errorDiv = document.getElementById('email-error');
+            
+            if (this.validity.invalid) {
+                this.classList.add('error');
+                // REDUNDANT: aria-invalid wird automatisch gesetzt
+                this.setAttribute('aria-invalid', 'true');
+                if (this.validity.valueMissing) {
+                    errorDiv.textContent = 'E-Mail-Adresse ist erforderlich';
+                } else if (this.validity.typeMismatch) {
+                    errorDiv.textContent = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
+                }
+                errorDiv.style.display = 'block';
+            } else {
+                this.classList.remove('error');
+                this.setAttribute('aria-invalid', 'false');
+                errorDiv.style.display = 'none';
+            }
+        });
+        
+        // Form Submit
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            if (this.checkValidity()) {
+                statusDiv.textContent = 'Formular erfolgreich abgesendet. Vielen Dank für Ihre Nachricht!';
+                alert('Formular würde abgesendet werden (Demo)');
+            } else {
+                statusDiv.textContent = 'Bitte korrigieren Sie die Fehler im Formular.';
+                const firstInvalid = this.querySelector(':invalid');
+                if (firstInvalid) {
+                    firstInvalid.focus();
+                }
+            }
+        });
+        
+        // Reset mit überflüssigen ARIA-Updates
+        form.addEventListener('reset', function(event) {
+            if (!confirm('Möchten Sie wirklich alle Eingaben zurücksetzen?')) {
+                event.preventDefault();
+                return;
+            }
+            
+            // REDUNDANT: Manuelle aria-invalid Updates (unnecessary)
+            const inputs = this.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                input.setAttribute('aria-invalid', 'false');
+            });
+            
+            // REDUNDANT: Checkbox state update (automatic)
+            document.getElementById('newsletter').setAttribute('aria-checked', 'false');
+            
+            const errorElements = this.querySelectorAll('.error');
+            errorElements.forEach(el => el.classList.remove('error'));
+            
+            const errorMessages = this.querySelectorAll('.error-message');
+            errorMessages.forEach(el => el.style.display = 'none');
+            
+            document.getElementById('message-count').textContent = '0 von 500 Zeichen';
+            statusDiv.textContent = 'Formular wurde zurückgesetzt.';
+        });
+    </script>
+    
+    <!--
+    ANTI-BEISPIEL - WAS MAN NICHT MACHEN SOLLTE:
+    
+    ❌ Redundante ARIA-Rollen auf semantischen HTML-Elementen:
+       - role="banner" auf <header>
+       - role="navigation" auf <nav>
+       - role="main" auf <main>
+       - role="form" auf <form>
+       - role="button" auf <button>
+       - role="textbox" auf <input>
+       - role="checkbox" auf input[type="checkbox"]
+       - role="combobox" auf <select>
+       - role="option" auf <option>
+       - etc.
+    
+    ❌ Überflüssige ARIA-Attribute:
+       - aria-required="true" wenn required vorhanden
+       - aria-labelledby wenn <label> bereits korrekt verknüpft
+       - aria-label auf <label> Elementen
+       - role="text" auf <p> und anderen Text-Elementen
+    
+    ❌ Übertriebene Live-Regionen und Status-Updates
+    ❌ Doppelte Labels und versteckte Label-Elemente
+    ❌ Manuelle ARIA-State Updates die automatisch funktionieren
+    
+    MERKSATZ: "No ARIA is better than bad ARIA"
+    Nur ARIA verwenden wo es wirklich benötigt wird!
+    -->
+</body>
+</html>
